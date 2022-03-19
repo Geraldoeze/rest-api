@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = mongoose.Schema({
+
+const userSchema = new Schema({
     email: {
         type: String,
         required: true
@@ -15,7 +17,7 @@ const userSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
+        default: 'I am new!'
     },
     posts: {
         type: Schema.Types.ObjectId,
