@@ -28,6 +28,7 @@ exports.getPosts = (req, res, next) => {
 }
 
 exports.createPost = (req, res, next) => {
+    console.log(req.file)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error('Validation failed, entered data is incorret.');
@@ -39,13 +40,14 @@ exports.createPost = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+    
     const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
     const post = new Post({
         title: title,
         content: content,
-        // imageUrl: imageUrl,
+        imageUrl: imageUrl,
         creator: { name: 'Gerald' },
     });
     post
@@ -68,6 +70,7 @@ exports.createPost = (req, res, next) => {
 
 exports.getPost = (req, res, next) => {
     const postId = req.params.postId;
+    console.log(postId)
     Post.findById(postId)
         .then(post => {
             if (!post) {
@@ -129,6 +132,8 @@ exports.updatePost = (req, res, next) => {
     next(err);
 })
 };
+
+
 exports.deletePost = (req, res, next) => {
     const postId = req.params.postId;
     Post.findById(postId)
