@@ -11,10 +11,10 @@ const app = express();
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null, './images');
     },
     filename: (req, file, cb) => {
-        cb(null, file.filename + '-' + file.originalname);
+        cb(null, file.originalname);
     } 
 })
 
@@ -37,6 +37,7 @@ const MONGODB_URI =
 app.use(bodyParser.json()); //application/json
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 );
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, res, next) => {
