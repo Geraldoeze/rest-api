@@ -33,6 +33,7 @@ const fileFilter = (req, file, cb) => {
 const MONGODB_URI =
 "mongodb+srv://gerald:GZ3r0pV0toPBWmCV@node-cluster.uktzq.mongodb.net/lists?retryWrites=true&w=majority";
 
+const URI = 'mongodb://127.0.0.1:27017/node-clus'
 
 app.use(bodyParser.json()); //application/json
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
@@ -59,7 +60,9 @@ app.use((error, req, res, next) => {
     res.status(status).json({message: message, data: data });
 })
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(URI, {
+    useNewUrlParser: true
+})
     .then(result => {
          console.log('CONNECTED')
         app.listen(4500); 
