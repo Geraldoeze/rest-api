@@ -28,26 +28,26 @@ exports.getPosts = (req, res, next) => {
 }
 
 exports.createPost = (req, res, next) => {
-    console.log(req.file)
+    // console.log(req.file)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error('Validation failed, entered data is incorret.');
         error.statusCode = 422;
         throw error;
     }
-    if (!req.file) {
-        const error = new Error('No image provided.');
-        error.statusCode = 422;
-        throw error;
-    }
-    
-    const imageUrl = req.file.path;
+    // if (!req.file) {
+    //     const error = new Error('No image provided.');
+    //     error.statusCode = 422;
+    //     throw error;
+    // }
+    console.log(req.body)
+    const imageUrl = '/images/8602.jpg';
     const title = req.body.title;
     const content = req.body.content;
     const post = new Post({
         title: title,
         content: content,
-        imageUrl:  imageUrl,
+        imageUrl:  'images/boli.jpg',
         creator: { name: 'Gerald' },
     });
     post
@@ -70,7 +70,6 @@ exports.createPost = (req, res, next) => {
 
 exports.getPost = (req, res, next) => {
     const postId = req.params.postId;
-    console.log(postId)
     Post.findById(postId)
         .then(post => {
             if (!post) {
