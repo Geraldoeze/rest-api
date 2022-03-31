@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const fs = require('fs');
 const path = require('path');
 
+const io = require('../socket');
 const Post = require('../models/post');
 const User = require('../models/user');
 
@@ -11,6 +12,7 @@ exports.getPosts = async (req, res, next) => {
   try { 
     const totalItems = await Post.find().countDocuments()
     const posts = await Post.find()
+        .populate('creator')
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
 
@@ -23,7 +25,7 @@ exports.getPosts = async (req, res, next) => {
   }
 }
 
-exports.createPost = (req, res, next) => {
+exports.createPost = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error('Validation failed, entered data is incorret.');
@@ -32,8 +34,7 @@ exports.createPost = (req, res, next) => {
     }
     if (!req.file) {
         const error = new Error('No image provided.');
-        error.statusCode = 422;
-        throw error;
+        throw error
     }
 
     const imageUrl = req.file.path; 
@@ -46,30 +47,25 @@ exports.createPost = (req, res, next) => {
         imageUrl:  imageUrl,
         creator: req.userId
     });
-    post 
-        .save()
-        .then(result => {
-            return User.findById(req.userId);
-        })
-        .then(user => {
-            console.log(user)
-            creator = user;
-            user.posts.push(post);
-            return user.save();
-        })
-        .then(result => {
-            res.status(201).json({
-                message: 'Post created successfully',
-                post: post,
-                creator: {_id: creator._id, name: creator.name}
+    try {
+        await post.save()
+        const user = await User.findById(req.userId);
+        user.posts.push(post);
+        await user.save();
+        io.getIO().emit('posts', 
+         { action: 'create',
+           post: {...post._doc, creator: { _id: req.userId, name: user.name}} });
+        res.status(201).json({
+            message: 'Post created successfully',
+            post: post,
+            creator: { _id: creator._id, name: creator.name}
             });
-        })
-        .catch(err => {
+    }   catch(err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
             next(err);
-        });
+        }
 
 };
 

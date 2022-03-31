@@ -50,7 +50,8 @@ app.use((req, res, next) => {
 })
 
 app.use('/feed', feedRoutes);
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes);
+
 
 app.use((error, req, res, next) => {
     console.log(error);
@@ -65,6 +66,10 @@ mongoose.connect(URI, {
 })
     .then(result => {
          console.log('CONNECTED')
-        app.listen(4500); 
+        const server = app.listen(4500); 
+        const io = require('./socket').init(server);
+        io.on('connection', socket =>{
+            console.log('client connected')
+        })
     })
     .catch(err => console.log(err))
