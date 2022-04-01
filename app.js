@@ -31,7 +31,7 @@ const fileFilter = (req, file, cb) => {
 
 
 const MONGODB_URI =
-"mongodb+srv://gerald:GZ3r0pV0toPBWmCV@node-cluster.uktzq.mongodb.net/lists?retryWrites=true&w=majority";
+`mongodb+srv://${process.env.MONGO_USER}gerald:${process.env.MONGO_PASSWORD}GZ3r0pV0toPBWmCV@node-cluster.uktzq.mongodb.net/lists?retryWrites=true&w=majority`;
 
 const URI = 'mongodb://127.0.0.1:27017/node-clus'
 
