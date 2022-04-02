@@ -31,7 +31,7 @@ const fileFilter = (req, file, cb) => {
 
 
 const MONGODB_URI =
-`mongodb+srv://${process.env.MONGO_USER}gerald:${process.env.MONGO_PASSWORD}GZ3r0pV0toPBWmCV@node-cluster.uktzq.mongodb.net/lists?retryWrites=true&w=majority`;
+`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
 const URI = 'mongodb://127.0.0.1:27017/node-clus'
 
@@ -66,7 +66,7 @@ mongoose.connect(URI, {
 })
     .then(result => {
          console.log('CONNECTED')
-        const server = app.listen(4500); 
+        const server = app.listen(process.env.PORT || 4500); 
         const io = require('./socket').init(server);
         io.on('connection', socket =>{
             console.log('client connected')
