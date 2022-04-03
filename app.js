@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 
+
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
 
@@ -29,7 +30,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-
+const venom = "";
 const MONGODB_URI =
 `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
