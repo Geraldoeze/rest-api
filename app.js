@@ -30,7 +30,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-let samuel;
+
 const MONGODB_URI =
 `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
