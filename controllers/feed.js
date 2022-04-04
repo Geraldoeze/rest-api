@@ -164,7 +164,7 @@ exports.deletePost = async (req, res, next) => {
         } catch(err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
-            }
+            } 
     };
 
 }
