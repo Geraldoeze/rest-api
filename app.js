@@ -44,7 +44,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, res, next) => {
     //CORS error handler
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*', 'OPTIONS');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next();
@@ -65,12 +65,14 @@ app.use((error, req, res, next) => {
 mongoose.connect(URI, {
     useNewUrlParser: true
 })
-    .then(result => {
-         console.log('CONNECTED')
-        const server = app.listen(process.env.PORT || 4500); 
-        const io = require('./socket').init(server);
-        io.on('connection', socket =>{
-            console.log('client connected')
-        })
-    })
-    .catch(err => console.log(err))
+.then(result => {
+  console.log('Connected')
+  const server = app.listen(4500);
+  const io = require("./socket").init(server); 
+  io.on('connection', socket => {
+      console.log('Client connected', socket.id);
+  })
+})
+.catch(err => {
+  console.log(err);
+})
