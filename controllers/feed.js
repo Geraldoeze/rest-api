@@ -115,7 +115,7 @@ exports.updatePost = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
             }
-            if(post.creator._id.toString() !== req.userId){
+             if(post.creator._id.toString() !== req.userId){
                 const error = new Error('Not authorized');
                 error.statusCode = 403;
                 throw error;
@@ -128,7 +128,7 @@ exports.updatePost = async (req, res, next) => {
             post.content = content;
             const result = await post.save();
             io.getIO().emit('posts', {action: "update", post: result})
-            res.status(200).json({message: 'Post Updated', post: result});
+             res.status(200).json({message: 'Post Updated', post: result});
         } catch (err) {
             if (!err.statusCode) {
              err.statusCode = 500;
