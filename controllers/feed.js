@@ -147,10 +147,11 @@ exports.deletePost = async (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
                 }
-            if(post.creator.toString() !== req.userId){
+            if(post.creator._id.toString() !== req.userId){
                 const error = new Error('Not authorized');
                 error.statusCode = 403;
                 throw error;
+            
             }
             //Future code
             clearImage(post.imageUrl);
@@ -161,10 +162,12 @@ exports.deletePost = async (req, res, next) => {
             await user.save();
             io.getIO().emit('posts', { action: 'delete', post: postId })
             res.status(200).json({ message: 'Deleted post'});
-        } catch(err) {
+        } 
+        catch(err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
             } 
+        next(err)    
     };
 
 }
