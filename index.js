@@ -56,13 +56,13 @@ app.get('/', (req, res) => {
     res.send('Server is Running!')
   })
 
-// // app.use((error, req, res, next) => {
-// //     console.log(error);
-// //     const status = error.statusCode || 500;
-// //     const message = error.message;
-// //     const data = error.data;
-// //     res.status(status).json({message: message, data: data });
-// // })
+app.use((error, req, res, next) => {
+    console.log(error);
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({message: message, data: data });
+})
 const port = process.env.PORT || 4500
 
 mongoose.connect(MONGODB_URI, {
