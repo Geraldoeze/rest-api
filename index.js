@@ -63,27 +63,20 @@ app.use((error, req, res, next) => {
     const data = error.data;
     res.status(status).json({message: message, data: data });
 })
-const port = process.env.PORT || 4500
+const port = process.env.PORT || 5500
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 })
 .then(result => {
   console.log('Connected')
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-  })})
-//   const server = app.listen(4500);
-//   const io = require("./socket").init(server); 
-//   io.on('connection', socket => {
-//       console.log('Client connected', socket.id);
-//   })
-// })
-// .catch(err => {
-//   console.log(err);
-// })
-
-
-
-
-
+//   Socket io connection
+    const server = app.listen(port);
+    const io = require("./socket").init(server); 
+    io.on('connection', socket => {
+      console.log('Client connected', socket.id);
+    })
+})  
+  .catch(err => {
+    console.log(err);
+  })
