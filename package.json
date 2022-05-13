@@ -2,11 +2,11 @@
   "name": "rest-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production MONGO_USER=gerald MONGO_PASSWORD=GZ3r0pV0toPBWmCV MONGO_DEFAULT_DATABASE=shop node app.js",
-    "start:dev": "nodemon app.js"
+    "start": "NODE_ENV=production MONGO_USER=gerald MONGO_PASSWORD=GZ3r0pV0toPBWmCV MONGO_DEFAULT_DATABASE=shop node index.js",
+    "start:dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
