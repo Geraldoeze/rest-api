@@ -1,14 +1,14 @@
-// const path = require('path');
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 // // const multer = require('multer');
 
 
-// const feedRoutes = require('./routes/feed');
-// const authRoutes = require('./routes/auth');
+const feedRoutes = require('./routes/feed');
+const authRoutes = require('./routes/auth');
 
-// const app = express();
+const app = express();
 
 // // const fileStorage = multer.diskStorage({
 // //     destination: (req, file, cb) => {
@@ -31,28 +31,30 @@
 // // }
 
 
-// const MONGODB_URI =
-// `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
+const MONGODB_URI =
+`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
-// const URI = 'mongodb://127.0.0.1:27017/node-clus'
+const URI = 'mongodb://127.0.0.1:27017/node-clus'
 
-// app.use(bodyParser.json()); //application/json
+app.use(bodyParser.json()); //application/json
 
 // // app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
-// // app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // // app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// // app.use((req, res, next) => {
-// //     //CORS error handler
-// //     res.setHeader('Access-Control-Allow-Origin', '*', 'OPTIONS');
-// //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
-// //     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-// //     next();
-// // })
+app.use((req, res, next) => {
+    //CORS error handler
+    res.setHeader('Access-Control-Allow-Origin', '*', 'OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    next();
+})
 
-// app.use('/feed', feedRoutes);
-// app.use('/auth', authRoutes);
-// app.use('/', )
+app.use('/feed', feedRoutes);
+app.use('/auth', authRoutes);
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
 
 // // app.use((error, req, res, next) => {
 // //     console.log(error);
@@ -61,13 +63,16 @@
 // //     const data = error.data;
 // //     res.status(status).json({message: message, data: data });
 // // })
+const port = process.env.PORT || 3000
 
-// mongoose.connect(MONGODB_URI, {
-//     useNewUrlParser: true
-// })
-// .then(result => {
-//   console.log('Connected')
-//   const server = app.listen(4500);
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true
+})
+.then(result => {
+  console.log('Connected')
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })})//   const server = app.listen(4500);
 //   const io = require("./socket").init(server); 
 //   io.on('connection', socket => {
 //       console.log('Client connected', socket.id);
@@ -77,14 +82,7 @@
 //   console.log(err);
 // })
 
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+
+
