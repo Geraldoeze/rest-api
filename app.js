@@ -62,7 +62,7 @@ app.use((error, req, res, next) => {
     res.status(status).json({message: message, data: data });
 })
 
-mongoose.connect(URI, {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 })
 .then(result => {
