@@ -81,7 +81,7 @@ exports.getStatus = async (req, res, next) => {
           error.statusCode = 404;
           throw error;
         }
-        res.status(200).json({ status: user.status });
+        res.status(200).json({ status: user.name });
       } catch (err) {
         if (!err.statusCode) {
           err.statusCode = 500;
@@ -92,6 +92,7 @@ exports.getStatus = async (req, res, next) => {
 
 exports.updateUserStatus = async (req, res, next) => {
     const newStatus = req.body.status;
+    console.log(newStatus)
     try {
       const user = await User.findById(req.userId);
       if (!user) {
@@ -99,7 +100,7 @@ exports.updateUserStatus = async (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      user.status = newStatus;
+      user.name = newStatus;
       await user.save();
       res.status(200).json({ message: 'User updated.' });
     } catch (err) {
