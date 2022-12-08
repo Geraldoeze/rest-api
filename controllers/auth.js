@@ -109,4 +109,4 @@ exports.updateUserStatus = async (req, res, next) => {
       }
       next(err);
     }
-  };
+  };  
