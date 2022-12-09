@@ -4,7 +4,10 @@ module.exports  = {
     init: httpServer => {
         io = require('socket.io')(httpServer, {
             cors: {
-                origin: "https://posts-feed.vercel.app/"
+                origin: "https://posts-feed.vercel.app/",
+                allowedHeaders: ["SocketConnect"],
+                credentials: true
+                
             }
         });
         return io;

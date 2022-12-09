@@ -17,7 +17,7 @@ exports.getPosts = async (req, res, next) => {
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
 
-        res.status(200).json({ message: 'Fetched post successfully', posts: posts, totalItems: totalItems })
+    res.status(200).json({ message: 'Fetched post successfully', posts: posts, totalItems: totalItems })
   } catch (err) {
     if (!err.statusCode) {
         err.statusCode = 500;
@@ -27,6 +27,7 @@ exports.getPosts = async (req, res, next) => {
 }
 
 exports.createPost = async (req, res, next) => {
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error('Validation failed, entered data is incorret.');
@@ -79,7 +80,7 @@ exports.getPost = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-            res.status(200).json({ message: 'Post fetched', post: post })
+        res.status(200).json({ message: 'Post fetched', post: post })
         })
         .catch(err => {
             if (!err.statusCode) {

@@ -12,14 +12,16 @@ module.exports = (req, res, next) => {
     try {
         decodedToken = jsonWT.verify(token, 'secretofabyss');
     } catch (err) {
+        console.log(err)
         err.statusCode = 500;
         throw err;
     }
     if(!decodedToken) {
-        const error = new Error('Not authenticated');
+        const error = new Error('Not authenticated.');
         error.statusCode = 401;
         throw error;
     }
     req.userId = decodedToken.userId;
+    console.log(req.userId, "req.userId")
     next();
 };

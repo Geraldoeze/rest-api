@@ -9,7 +9,7 @@ const router = express.Router();
 
 //GET /feed/posts
 router.get('/posts', 
-// isAuth, 
+isAuth, 
 feedController.getPosts);
 
 //POST /feed/posts
@@ -22,7 +22,8 @@ router.post('/post',
         body('content')
           .trim()
           .isLength({min: 5})
-    ], feedController.createPost);
+    ],
+     feedController.createPost);
 
 router.get('/post/:postId', isAuth, feedController.getPost);   
 
@@ -38,6 +39,6 @@ router.put('/post/:postId', isAuth,
 );
 
 router.delete('/post/:postId', 
-// isAuth,
+isAuth,
  feedController.deletePost);
 module.exports = router;

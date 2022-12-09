@@ -12,13 +12,14 @@ const app = express();
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null, './images');
     },
     filename: (req, file, cb) => {
         cb(null,  file.originalname);
     } 
 })
 
+const fileLimit = 1000000;
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
@@ -33,19 +34,18 @@ const fileFilter = (req, file, cb) => {
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
-
 // const MONGODB_URI = 'mongodb://127.0.0.1:27017/node-clus'
 
 app.use(bodyParser.json()); //application/json
 
-app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+app.use(multer({limits: fileLimit, storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(cors())
 app.use((req, res, next) => {
     //CORS error handler
-    res.setHeader('Access-Control-Allow-Origin', '*', 'OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next();
@@ -53,10 +53,10 @@ app.use((req, res, next) => {
 
 app.use('/feed', feedRoutes);
 app.use('/auth', authRoutes);
-app.post('/', (req, res) => {
-    
-    res.send('Server is Running!')
-  })
+// app.post('/', (req, res) => {
+//     console.log(req.body, req.file)
+//     res.send('Server is Running!')
+//   })
 
 app.use((error, req, res, next) => {
     console.log(error);
@@ -71,13 +71,13 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 })
 .then(result => {
-  console.log('Connected')
 //   Socket io connection
     const server = app.listen(port);
     const io = require("./socket").init(server); 
     io.on('connection', socket => {
       console.log('Client connected', socket.id);
     })
+    console.log('connect')
 })  
   .catch(err => {
     console.log(err);
