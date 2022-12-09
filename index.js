@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
-
+const cors = require('cors')
 
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
@@ -31,10 +31,10 @@ const fileFilter = (req, file, cb) => {
 }
 
 
-// const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
 
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/node-clus'
+// const MONGODB_URI = 'mongodb://127.0.0.1:27017/node-clus'
 
 app.use(bodyParser.json()); //application/json
 
@@ -42,6 +42,7 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use(cors())
 app.use((req, res, next) => {
     //CORS error handler
     res.setHeader('Access-Control-Allow-Origin', '*', 'OPTIONS');
