@@ -31,6 +31,10 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
+var corsOptions = {
+    origin: 'https://posts-feed.vercel.app',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@node-cluster.uktzq.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -43,7 +47,6 @@ app.use(multer({limits: fileLimit, storage: fileStorage, fileFilter: fileFilter}
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use(cors())
 app.use((req, res, next) => {
     //CORS error handler
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,6 +54,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next();
 })
+
+app.use(cors(corsOptions))
+
 
 app.use('/feed', feedRoutes);
 app.use('/auth', authRoutes);
