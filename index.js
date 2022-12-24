@@ -43,6 +43,7 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO
 
 app.use(bodyParser.json()); //application/json
 
+app.use(cors(corsOptions))
 app.use(multer({limits: fileLimit, storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -55,7 +56,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(cors(corsOptions))
+
 
 
 app.use('/feed', feedRoutes);

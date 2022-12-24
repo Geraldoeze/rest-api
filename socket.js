@@ -6,11 +6,12 @@ module.exports  = {
     init: httpServer => {
         io = new Server(httpServer, {
             cors: {
-                origin: "https://posts-feed.vercel.app",
+                origin: "*",
                 allowedHeaders: ["Socket-Connect"],
-                credentials: true
-                
-            }
+                credentials: true,
+                methods: ["GET", "POST"]
+            },
+            allowEIO3: true,
         });
         return io;
     },
