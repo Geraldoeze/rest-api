@@ -93,7 +93,7 @@ exports.getStatus = async (req, res, next) => {
 
 exports.updateUserStatus = async (req, res, next) => {
     const newStatus = req.body.status;
-    console.log(newStatus)
+    
     try {
       const user = await User.findById(req.userId);
       if (!user) {

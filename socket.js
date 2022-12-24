@@ -1,11 +1,13 @@
+import {Server} from 'socket.io'
+
 let io;
 
 module.exports  = {
     init: httpServer => {
-        io = require('socket.io')(httpServer, {
+        io = new Server(httpServer, {
             cors: {
                 origin: "https://posts-feed.vercel.app",
-                allowedHeaders: ["SocketConnect"],
+                allowedHeaders: ["Socket-Connect"],
                 credentials: true
                 
             }
