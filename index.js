@@ -32,7 +32,7 @@ const fileFilter = (req, file, cb) => {
 }
 
 var corsOptions = {
-    origin: 'https://posts-feed.vercel.app',
+    origin: 'https://cozy-fairy-e26f5e.netlify.app',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
@@ -50,7 +50,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, res, next) => {
     //CORS error handler write the
-    res.setHeader('Access-Control-Allow-Origin', 'https://posts-feed.vercel.app');
+    res.setHeader('Access-Control-Allow-Origin', 'https://cozy-fairy-e26f5e.netlify.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next();
