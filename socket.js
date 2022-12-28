@@ -6,7 +6,7 @@ module.exports  = {
     init: httpServer => {
         io = new Server(httpServer, {
             cors: {
-                origin: "*",
+                origin: "https://posts-feed.vercel.app",
                 allowedHeaders: ["Socket-Connect"],
                 credentials: true,
                 methods: ["GET", "POST"]
